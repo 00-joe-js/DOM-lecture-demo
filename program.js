@@ -9,22 +9,41 @@ const makeMyCardWhite = () => {
     businessCardElement.style.background = "white";
 };
 
-businessCardElement.addEventListener(
-    "click", 
-    function (event) {
-        console.log(event.x, event.y);
-        if (businessCardElement.style.background === "purple") {
-            makeMyCardWhite();
-        } else {
-            makeMyCardPurple();
-        }
-    }
-);
+const makeMyCardSpin = () => {
 
-phoneNumber.addEventListener("click", function (event) {
-    event.stopPropagation()
-    console.log("Phone was clicked!");
-})
+    let currentDegrees = 0;
+    setInterval(() => {
+        currentDegrees = currentDegrees + 1;
+        if (currentDegrees === 360) currentDegrees = 0;
+        businessCardElement.style.transform = `rotateZ(${currentDegrees}deg)`;
+    }, 10);
+
+
+};
+
+// businessCardElement.addEventListener(
+//     "click", 
+//     function (event) {
+//         console.log(event.x, event.y);
+//         if (businessCardElement.style.background === "purple") {
+//             makeMyCardWhite();
+//         } else {
+//             makeMyCardPurple();
+//         }
+//     }
+// );
+
+const easterEggListener = function (event) {
+    console.log("test");
+    event.stopPropagation();
+    makeMyCardPurple();
+}
+
+phoneNumber.addEventListener("click", easterEggListener);
+setTimeout(() => {
+    phoneNumber.removeEventListener("click", easterEggListener);
+}, 5000);
+
 
 const buttonsSection = document.querySelector("#buttons-section");
 
@@ -32,14 +51,14 @@ buttonsSection.addEventListener("click", function (event) {
 
     const exactButtonThatWasClicked = event.target;
 
-    const action = exactButtonThatWasClicked.id;
+    const theIdOntheButton = exactButtonThatWasClicked.id;
 
-    if (action === "purple") {
+    if (theIdOntheButton === "purple") {
         makeMyCardPurple();
-    } else if (action === "white") {
+    } else if (theIdOntheButton === "white") {
         makeMyCardWhite();
-    } else if (action === "spin") {
-        // todo
+    } else if (theIdOntheButton === "spin") {
+        makeMyCardSpin();
     } else {
         throw new Error("UNKNOWN ACTION")
     }
